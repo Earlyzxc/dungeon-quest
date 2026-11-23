@@ -20,9 +20,11 @@ while True:
     if choice == 1:
         print("This is not available")
     elif choice == 2:
-        print(f"Name: {stats["name"]}")
+        print(f"Name: {stats['name']}")
         print(f"Hp: {stats['hp']}")
         print(f"Gold: {stats['gold']}")
     elif choice == 3:
         print("Thank you for playing!")
         break
+    else:
+        print("Invalid number")
