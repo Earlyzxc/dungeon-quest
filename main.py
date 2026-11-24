@@ -1,5 +1,8 @@
 import random
 RUN_CHANCE = 70
+HP_RESTORE = 5
+HEALING_POTIONS = 5
+LOST_GOLD = 5
 
 print("WELCOME TO THE DUNGEON QUEST! ")
 print()
@@ -48,8 +51,10 @@ def encounter():
     monster = random.choice(monsters)
     print(f"wild {monster['name']} has appeared! ")
     return monster
+
+
 def battle(monster):
-    heals = 5
+    heals = HEALING_POTIONS
     print()
     monster = monster.copy()
     print(f"Battle started against {monster['name']}!")
@@ -81,16 +86,16 @@ def battle(monster):
                 break
         elif choice == 2:
             if heals <= 0:
-                print("You ran out of heal! ")
+                print("You ran out of healing potion! ")
                 continue
             elif stats['hp'] == stats["maxHP"]:
                 print("Your hp is full!")
                 continue
             else:
-                stats['hp'] = min(stats["hp"] + 5, stats["maxHP"])
+                stats['hp'] = min(stats["hp"] + HP_RESTORE, stats["maxHP"])
                 print(f"You healed now you have {stats['hp']} hp")
                 heals -= 1
-                print(f"You only have {heals} heals left")
+                print(f"You only have {heals} healing potion left")
         elif choice == 3:
             if random.randint(1, 100) <= RUN_CHANCE:
                 print("You successfully ran away!")
@@ -110,10 +115,10 @@ def battle(monster):
             print("You died! Better luck next time!")
             print()
 
-            lost_gold = min(stats['gold'], 5)
-            stats["gold"] -= lost_gold
+            gold_to_lose = min(stats['gold'], LOST_GOLD)
+            stats["gold"] -= gold_to_lose
 
-            print(f"You lost: {lost_gold} gold")
+            print(f"You lost: {gold_to_lose} gold")
             print(f"Remaining Gold: {stats['gold']}")
 
             stats['hp'] = stats["maxHP"]
