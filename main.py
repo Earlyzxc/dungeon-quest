@@ -54,7 +54,7 @@ def encounter():
 
 
 def battle(monster):
-    heals = HEALING_POTIONS
+    hp_potion_remaining = HEALING_POTIONS
     print()
     monster = monster.copy()
     print(f"Battle started against {monster['name']}!")
@@ -85,7 +85,7 @@ def battle(monster):
                 stats['gold'] = stats["gold"] + monster['gold']
                 break
         elif choice == 2:
-            if heals <= 0:
+            if hp_potion_remaining <= 0:
                 print("You ran out of healing potion! ")
                 continue
             elif stats['hp'] == stats["maxHP"]:
@@ -94,8 +94,8 @@ def battle(monster):
             else:
                 stats['hp'] = min(stats["hp"] + HP_RESTORE, stats["maxHP"])
                 print(f"You healed now you have {stats['hp']} hp")
-                heals -= 1
-                print(f"You only have {heals} healing potion left")
+                hp_potion_remaining -= 1
+                print(f"You only have {hp_potion_remaining} healing potion left")
         elif choice == 3:
             if random.randint(1, 100) <= RUN_CHANCE:
                 print("You successfully ran away!")
