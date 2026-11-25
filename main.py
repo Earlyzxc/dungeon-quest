@@ -1,7 +1,6 @@
 import random
 RUN_CHANCE = 70
 HP_RESTORE = 5
-HEALING_POTIONS = 5
 LOST_GOLD = 5
 CRIT_CHANCE = 15
 CRIT_MULTIPLIER = 2
@@ -22,7 +21,8 @@ stats = {
     "attack": 15,
     "maxHP":100,
     "hp": 100,
-    "gold": 0
+    "gold": 0,
+    "inventory": ["Healing Potion", "Healing Potion", "Healing Potion"]
 }
 
 monsters = [
@@ -31,21 +31,24 @@ monsters = [
         "attack": 5,
         "maxHP":75,
         "hp": 75,
-        "gold": 10
+        "gold": 10,
+        "drops": ["Small goo", "Big goo", "Huge goo"]
     },
     {
         "name": "goblin",
         "attack": 10,
         "maxHP":40,
         "hp": 40,
-        "gold": 15
+        "gold": 15,
+        "drops": ["Small goblin ear", "Big goblin ear", "Huge goblin ear"]
     },
     {
         "name": "skeleton",
         "attack": 15,
         "maxHP":30,
         "hp": 30,
-        "gold": 20
+        "gold": 20,
+        "drops": ["Small bone", "Big bone", "Huge bone"]
     }
 ]
 
@@ -56,7 +59,6 @@ def encounter():
 
 
 def battle(monster):
-    hp_potion_remaining = HEALING_POTIONS
     print()
     monster = monster.copy()
     print(f"Battle started against {monster['name']}!")
@@ -89,10 +91,13 @@ def battle(monster):
             if monster['hp'] <= 0:
                 print(f"{monster['name']} has been slain")
                 print(f"You earned {monster['gold']} gold")
+                drops = random.choices(monster["drops"],weights=[96, 3, 1], k=1)
+                print(f"The monster dropped {drops[0]}")
+                stats['inventory'].append(drops[0])
                 stats['gold'] = stats["gold"] + monster['gold']
                 break
         elif choice == 2:
-            if hp_potion_remaining <= 0:
+            if stats["inventory"].count("Healing Potion") <= 0:
                 print("You ran out of healing potion! ")
                 continue
             elif stats['hp'] == stats["maxHP"]:
@@ -101,8 +106,9 @@ def battle(monster):
             else:
                 stats['hp'] = min(stats["hp"] + HP_RESTORE, stats["maxHP"])
                 print(f"You healed now you have {stats['hp']} hp")
-                hp_potion_remaining -= 1
-                print(f"You only have {hp_potion_remaining} healing potion left")
+                stats["inventory"].remove("Healing Potion")
+                hp_potion = stats["inventory"].count("Healing Potion")
+                print(f"You only have {hp_potion} healing potion left")
         elif choice == 3:
             if random.randint(1, 100) <= RUN_CHANCE:
                 print("You successfully ran away!")
@@ -136,7 +142,8 @@ while True:
     print()
     print("1. Raid Dungeon (WIP)")
     print("2. View Stats")
-    print("3. Exit")
+    print("3. View Inventory")
+    print("4. Exit")
 
     try: 
         choice = int(input("Enter a number: "))
@@ -153,6 +160,12 @@ while True:
         print(f"Hp: {stats['hp']}")
         print(f"Gold: {stats['gold']}")
     elif choice == 3:
+        if not stats["inventory"]:
+            print("Bag is mt")
+        else:
+            for item in stats["inventory"]:
+                print(item)
+    elif choice == 4:
         print("Thank you for playing!")
         break
     else:
