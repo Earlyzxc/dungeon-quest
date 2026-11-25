@@ -3,6 +3,8 @@ RUN_CHANCE = 70
 HP_RESTORE = 5
 HEALING_POTIONS = 5
 LOST_GOLD = 5
+CRIT_CHANCE = 15
+CRIT_MULTIPLIER = 2
 
 print("WELCOME TO THE DUNGEON QUEST! ")
 print()
@@ -76,8 +78,13 @@ def battle(monster):
             continue
 
         if choice == 1:
-            monster['hp'] = max(monster['hp'] - stats["attack"], 0)
-            print(f"You attacked and dealt {stats['attack']} damage")
+            damage = stats["attack"]
+            if random.randint(1,100) <= CRIT_CHANCE:
+                damage = damage * CRIT_MULTIPLIER
+                print(f"Your attack crits and dealt {damage} damage")
+            else:
+                print(f"You attacked and dealt {damage} damage")
+            monster['hp'] = max(monster['hp'] - damage, 0)
             print(f"Enemy has {monster['hp']} hp left")
             if monster['hp'] <= 0:
                 print(f"{monster['name']} has been slain")
