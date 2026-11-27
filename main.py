@@ -160,11 +160,17 @@ while True:
         print(f"Hp: {stats['hp']}")
         print(f"Gold: {stats['gold']}")
     elif choice == 3:
+        shown = []
         if not stats["inventory"]:
             print("Bag is mt")
         else:
             for item in stats["inventory"]:
-                print(item)
+                if item in shown:
+                    continue
+                else:
+                    print(f"{item} x{stats['inventory'].count(item)}")
+                    shown.append(item)
+                    
     elif choice == 4:
         print("Thank you for playing!")
         break

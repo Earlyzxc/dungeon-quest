@@ -5,7 +5,7 @@ A text-based RPG where an adventurer travels around the world and defeats monste
 ## Phases
 - [x] Phase 1: Core (player name, HP, gold, main menu)
 - [x] Phase 2: Battles (random monsters, attacks, critical hits, flee)
-- [ ] Phase 3: Loot and inventory
+- [x] Phase 3: Loot and inventory
 - [ ] Phase 4: Leveling (EXP and stats)
 - [ ] Phase 5: Classes and OOP (Player, Monster, Item)
 - [ ] Phase 6: Save and load
